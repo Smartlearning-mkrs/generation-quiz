@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Generation Quiz</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        background-color: #ffffff;
+        font-family: Arial, sans-serif;
+      }
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .container {
+        width: 90%;
+        max-width: 1000px;
+        background: #fff;
+        padding: 20px 40px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+      .question {
+        font-size: 1.4em;
+        margin-bottom: 20px;
+        color: #3746d7;
+      }
+      .answer {
+        display: block;
+        width: 100%;
+        margin: 10px 0;
+        padding: 12px;
+        font-size: 1.1em;
+        cursor: pointer;
+        background-color: #e7f9f9; /* Light blue background */
+        color: #333;
+        border: 1px solid #c3f0f0; /* Light blue border */
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+      }
+      .answer:hover {
+        background-color: #9bf082;
+      }
+      h2 {
+        color: #3746d7;
+        padding: 12px;
+      }
+      h3 {
+        color: #49a749;
+        padding: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id="quiz-container">
+        <!-- Quiz questions will be injected here -->
+      </div>
+    </div>
+
+    <script>
+      // Define the quiz questions and answers.
+      // Each answer is associated with a generation.
+      const questions = [
+        {
+          question: "Hvordan foretrækker du at kommunikere på arbejdet?",
+          answers: [
+            { text: "Fysiske møder og telefonopkald", generation: "Boomers" },
+            { text: "E-mails og planlagte møder", generation: "Gen X" },
+            {
+              text: "Hurtige beskeder på Slack eller Teams",
+              generation: "Millennials",
+            },
+            { text: "GIFs, emojis og memes i Discord", generation: "Gen Z" },
+          ],
+        },
+        {
+          question: "Hvad betyder succes for dig?",
+          answers: [
+            { text: "Stabilitet og tryghed", generation: "Boomers" },
+            { text: "Karriereudvikling og anerkendelse", generation: "Gen X" },
+            {
+              text: "Fleksibilitet og work-life balance",
+              generation: "Millennials",
+            },
+            {
+              text: "At skabe forandring og gøre en forskel",
+              generation: "Gen Z",
+            },
+          ],
+        },
+        {
+          question: "Hvad er dit foretrukne sociale medie?",
+          answers: [
+            { text: "Facebook", generation: "Boomers" },
+            { text: "LinkedIn", generation: "Gen X" },
+            { text: "Instagram", generation: "Millennials" },
+            { text: "TikTok", generation: "Gen Z" },
+          ],
+        },
+        {
+          question:
+            "Hvordan reagerer du, hvis en kollega siger “skrald” eller “woke”?",
+          answers: [
+            { text: "Jeg forstår det ikke", generation: "Boomers" },
+            {
+              text: "Jeg har hørt det før, men bruger det sjældent",
+              generation: "Gen X",
+            },
+            {
+              text: "Jeg bruger det selv af og til",
+              generation: "Millennials",
+            },
+            {
+              text: "Jeg kommunikerer næsten kun i memes og slang",
+              generation: "Gen Z",
+            },
+          ],
+        },
+        {
+          question: "Hvordan ser din ideelle arbejdsdag ud?",
+          answers: [
+            { text: "8-16 med faste opgaver", generation: "Boomers" },
+            {
+              text: "En dag med faglige udfordringer og læring",
+              generation: "Gen X",
+            },
+            {
+              text: "En fleksibel dag med mulighed for hjemmearbejde",
+              generation: "Millennials",
+            },
+            { text: "En kreativ og spontan arbejdsdag", generation: "Gen Z" },
+          ],
+        },
+        {
+          question: "Hvordan har du det med feedback?",
+          answers: [
+            {
+              text: "Jeg forventer en årlig medarbejdersamtale",
+              generation: "Boomers",
+            },
+            {
+              text: "Jeg sætter pris på struktureret feedback",
+              generation: "Gen X",
+            },
+            {
+              text: "Jeg foretrækker løbende feedback",
+              generation: "Millennials",
+            },
+            {
+              text: "Feedback skal være øjeblikkelig og konstant",
+              generation: "Gen Z",
+            },
+          ],
+        },
+        {
+          question: "Hvordan foretrækker du at arbejde?",
+          answers: [
+            {
+              text: "På et kontor med faste strukturer",
+              generation: "Boomers",
+            },
+            {
+              text: "En blanding af hjemmearbejde og kontor",
+              generation: "Gen X",
+            },
+            { text: "Remote og fleksibelt", generation: "Millennials" },
+            {
+              text: "Digital nomade – jeg kan arbejde overalt",
+              generation: "Gen Z",
+            },
+          ],
+        },
+        {
+          question: "Hvordan planlægger du din økonomi?",
+          answers: [
+            { text: "Jeg har et budget og sparer op", generation: "Boomers" },
+            {
+              text: "Jeg investerer og tænker langsigtet",
+              generation: "Gen X",
+            },
+            {
+              text: "Jeg lever i nuet og ser, hvad der sker",
+              generation: "Millennials",
+            },
+            {
+              text: "Jeg bruger det meste af min løn på oplevelser",
+              generation: "Gen Z",
+            },
+          ],
+        },
+        {
+          question: "Hvilken teknologi kunne du mindst undvære?",
+          answers: [
+            { text: "Fjernsyn", generation: "Boomers" },
+            { text: "Laptop", generation: "Gen X" },
+            { text: "Smartphone", generation: "Millennials" },
+            { text: "AI-chatbots", generation: "Gen Z" },
+          ],
+        },
+      ];
+
+      // Define tailored messages in Danish for each generation.
+      const messages = {
+        Boomers:
+          "Du udstråler visdom og stabilitet, som er karakteristisk for Babyboomer-generationen. Du sætter pris på traditioner og hårdt arbejde.",
+        "Gen X":
+          "Din pragmatiske og selvstændige natur minder om Generation X, hvor fleksibilitet og en stærk arbejdsmoral er i højsædet.",
+        Millennials:
+          "Du besidder en moderne og dynamisk tilgang, der afspejler Millennials – med fokus på digital kommunikation og en god balance i livet.",
+        "Gen Z":
+          "Din innovative og digitale indstilling er typisk for Generation Z, hvor hurtig kommunikation og kreativitet er nøgleord.",
+      };
+
+      // Message for mix result.
+      const mixMessage =
+        "Du udviser en unik blanding af alle generationers bedste egenskaber!";
+
+      // Initialize the current question index and scores for each generation.
+      let currentQuestion = 0;
+      const scores = {
+        Boomers: 0,
+        "Gen X": 0,
+        Millennials: 0,
+        "Gen Z": 0,
+      };
+
+      // Function to display the current question.
+      function showQuestion() {
+        const container = document.getElementById("quiz-container");
+        container.innerHTML = ""; // Clear previous content
+
+        // Check if there are still questions left
+        if (currentQuestion < questions.length) {
+          const q = questions[currentQuestion];
+          const questionEl = document.createElement("div");
+          questionEl.className = "question";
+          questionEl.textContent = q.question;
+          container.appendChild(questionEl);
+
+          // Create buttons for each answer
+          q.answers.forEach((answer) => {
+            const button = document.createElement("button");
+            button.className = "answer";
+            button.textContent = answer.text;
+            button.onclick = function () {
+              // Update the score for the chosen generation
+              scores[answer.generation]++;
+              currentQuestion++;
+              showQuestion();
+            };
+            container.appendChild(button);
+          });
+        } else {
+          // All questions answered: show results
+          showResults();
+        }
+      }
+
+      // Function to display the quiz results.
+      function showResults() {
+        const container = document.getElementById("quiz-container");
+        container.innerHTML = "<h2>Opdag dine fantastiske egenskaber!</h2>";
+
+        // Calculate the highest score and determine if there's a mix result.
+        const scoreValues = Object.values(scores);
+        const highestScore = Math.max(...scoreValues);
+        const topGenerations = Object.keys(scores).filter(
+          (gen) => scores[gen] === highestScore
+        );
+
+        // For a 9-question quiz, consider a dominant result if one generation scores at least 5 points.
+        if (highestScore < 5 || topGenerations.length > 1) {
+          container.innerHTML += `<h3>${mixMessage}</h3>`;
+        } else {
+          container.innerHTML += `<h3>${messages[topGenerations[0]]}</h3>`;
+        }
+
+        // Display each generation's score.
+        for (let generation in scores) {
+          container.innerHTML += `<p>${generation}: ${scores[generation]} point(s)</p>`;
+        }
+      }
+
+      // Start the quiz by showing the first question.
+      showQuestion();
+    </script>
+  </body>
+</html>
